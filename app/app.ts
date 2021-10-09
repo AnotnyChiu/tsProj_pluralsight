@@ -1,12 +1,55 @@
 // plain js is also valid ts!
 
 function startGame(){
-    var messagesElement = document.getElementById('messages')
-    messagesElement!.innerText = 'welcome to multimath! starting new game'
+    
+    let playerName: string | undefined = getInputValue('playername')
+    logPlayer(playerName)
+    
+    postScore(80, playerName)
+    postScore(-5, playerName)
+}
+
+// set default value，then if null or undefined is passed, it still can run with default value
+function logPlayer(name: string = 'MultiMath Player'): void {
+    console.log(`New Game starting for player ${name}`)
+}
+
+function getInputValue(elementId: string): string | undefined {
+    const inputElement: HTMLInputElement = <HTMLInputElement>document.getElementById(elementId)
+    // getElementById 可能會是null，所以這邊要assertion是HTMLInputElement
+
+    if(inputElement.value === ''){
+        return undefined
+    }
+    else{
+        return inputElement.value
+    }
+}
+
+function postScore(score: number, playerName:string = 'MultiMath Player'): void {
+
+    //function type
+    let logger: (value: string) => void
+
+    if (score < 0){
+        logger = logError
+    }
+    else{
+        logger = logMessage
+    }
+
+    const scoreElement: HTMLElement | null = document.getElementById('postedScore')
+    scoreElement!.innerText = `${score} - ${playerName}` // ! not null assertion operator
+    // scoreElement?.innerText = `${score} - ${plaayerName}`  ? can be null assertion operator
+
+    logger(`Score: ${score}`)
 }
 
 document.getElementById('startGame')!.addEventListener('click', startGame)
 
-// config option 開啟 strict後，ts會認為messagesElement 跟 getelement那邊(來自html) 的東西
-// 可能會是null，所以會抱錯，要讓ts知道你確定它不會是null
-// 在他後面加上 " ! "
+const logMessage = (message: string): void => console.log(message)
+// once again oneline in arrow function don't need curl bracket
+
+function logError(err: string): void {
+    console.error(err)
+}
