@@ -1,5 +1,8 @@
-/// <reference path="player.ts" />
-/// <reference path="utility.ts" />
+// /// <reference path="player.ts" />
+// /// <reference path="utility.ts" />
+
+import { getValue } from "./utility"
+import { Player } from './models/player'
 
 
 
@@ -8,7 +11,7 @@
 
 function startGame(){
     
-    let playerName: string | undefined = Utility.getInputValue('playername') // access static metho
+    let playerName: string | undefined = getValue('playername') // access static method
     logPlayer(playerName)
     
     postScore(80, playerName)

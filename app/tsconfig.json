@@ -2,7 +2,12 @@
     "extends": "../tsconfig.base",
     "compilerOptions": {
         "removeComments": true,
-        "outFile": "../js/app.js"
+        "module": "commonjs",
+        // even though compiler already know we're using Node resolution (since using commonjs)
+        // still make it explicitly
+        "moduleResolution": "node",
+        // if want to log out the module resolution path, turn on the traceResolution option
+        // "traceResolution": true
     },
     // "include": [
     //     "./**/*"
